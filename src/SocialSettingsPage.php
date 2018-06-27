@@ -302,7 +302,7 @@ class SocialSettingsPage
         );
     }
 
-    public function getSocialLinks($format = 'svg', $shape = 'square', $data = '')
+    public function getSocialLinks($format = 'svg', $shape = 'circle', $data = '')
     {
         $supportedPlatforms = ($data != '' ? $data : get_option('social_option_name'));
 
@@ -310,7 +310,7 @@ class SocialSettingsPage
         if (is_array($supportedPlatforms)) {
             foreach ($supportedPlatforms as $plat => $platLink) {
                 if ($platLink != '') {
-                    $iconUrl = 'icons/'.$format.'/'.$shape.'/'.$plat.'.svg';
+                    $iconUrl = 'icons/' . $format . '/' . $shape . '/' . $plat . '.svg';
                     $iconData = file_get_contents(wp_normalize_path($iconUrl));
                     $socialArray[ $plat ][0] = $platLink;
                     $socialArray[ $plat ][1] = $iconData;
