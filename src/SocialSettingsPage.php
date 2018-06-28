@@ -4,15 +4,45 @@ namespace KeriganSolutions\SocialMedia;
 
 class SocialSettingsPage
 {
-    /**
-     * Holds the values to be used in the fields callbacks
-     */
+    public $socialPlatforms;
     private $options;
+
+    public function __construct()
+    {
+        $this->socialPlatforms = [
+            // handle => label,
+            'facebook'    => 'Facebook',
+            'youtube'     => 'YouTube',
+            'youtubealt'  => 'YouTube (version 2)',
+            'linkedin'    => 'LinkedIn',
+            'instagram'   => 'Instagram',
+            'twitter'     => 'Twitter',
+            'googleplus'  => 'Google+',
+            'pinterest'   => 'Pinterest',
+            'vimeo'       => 'Vimeo',
+            'atom'        => 'Atom',
+            'blogger'     => 'Blogger',
+            'ios'         => 'iOS',
+            'android'     => 'Android',
+            'windows'     => 'Windows',
+            'wordpress'   => 'WordPress',
+            'stumbleupon' => 'StumbleUpon',
+            'flickr'      => 'Flickr',
+            'ebay'        => 'Ebay',
+            'digg'        => 'Digg',
+            'behance'     => 'Behance',
+            'amazon'      => 'Amazon',
+            'googledrive' => 'Google Drive',
+            'dropbox'     => 'Dropbox',
+            'skype'       => 'Skype',
+            'rss'         => 'RSS'
+        ];
+    }
 
     public function createPage()
     {
-        add_action('admin_menu', [ $this, 'add_menu_item' ]);
-        add_action('admin_init', [ $this, 'page_fields_init' ]);
+        add_action('admin_menu', [$this, 'add_menu_item']);
+        add_action('admin_init', [$this, 'page_fields_init']);
     }
 
     /**
@@ -26,7 +56,7 @@ class SocialSettingsPage
             'Social Media Links',
             'manage_options',
             'social-setting-admin',
-            [ $this, 'create_admin_page' ]
+            [$this, 'create_admin_page']
         );
     }
 
@@ -40,129 +70,66 @@ class SocialSettingsPage
 		<div class="wrap">
 			<h1>Social Media Settings Settings</h1>
 			<form class="form form-horizontal" method="post" action="options.php">
-				<?php
-                // This prints out all hidden setting fields
+                <?php 
+                // print out all hidden setting fields
                 settings_fields('social_option_group');
+
+                //add form fields
                 do_settings_sections('social-setting-admin');
-                submit_button(); ?>
+
+                //add submit button
+                submit_button(); 
+                ?>
 			</form>
 		</div>
 		<?php
     }
 
     /**
-     * Register and add settings
+     * Register inputs
      */
     public function page_fields_init()
     {
         register_setting(
             'social_option_group', // Option group
             'social_option_name', // Option name
-            [ $this, 'sanitize' ] // Sanitize
+            [$this, 'sanitize'] // Sanitize
         );
 
         add_settings_section(
             'setting_section_id', // ID
             'Manage Social Media Links', // Title
-            [ $this, 'print_link_section_info' ], // Callback
+            [$this, 'print_link_section_info'], // Callback
             'social-setting-admin' // Page
         );
 
-        //Configure fields
-        add_settings_field(
-            'facebook', // ID
-            'Facebook', // Title
-            [ $this, 'facebook_callback' ], // Callback
-            'social-setting-admin', // Page
-            'setting_section_id' // Section
-        );
+        foreach ($this->socialPlatforms as $handle => $label) {
 
-        add_settings_field(
-            'youtube', // ID
-            'YouTube', // Title
-            [ $this, 'youtube_callback' ], // Callback
-            'social-setting-admin', // Page
-            'setting_section_id' // Section
-        );
+            $args = [ //creates callback to print input field
+                'name' => $handle,
+                'type' => 'text',
+                'label' => $label
+            ];
 
-        add_settings_field(
-            'linkedin', // ID
-            'LinkedIn', // Title
-            [ $this, 'linkedin_callback' ], // Callback
-            'social-setting-admin', // Page
-            'setting_section_id' // Section
-        );
+            add_settings_field(
+                $handle, // ID
+                $label, // Title
+                [$this, 'print_input_field'], // Callback
+                'social-setting-admin', // Page
+                'setting_section_id', // Section
+                $args
+            );
+        }
+    }
 
-        add_settings_field(
-            'twitter', // ID
-            'Twitter', // Title
-            [ $this, 'twitter_callback' ], // Callback
-            'social-setting-admin', // Page
-            'setting_section_id' // Section
-        );
-
-        add_settings_field(
-            'googleplus', // ID
-            'Google+', // Title
-            [ $this, 'googleplus_callback' ], // Callback
-            'social-setting-admin', // Page
-            'setting_section_id' // Section
-        );
-
-        add_settings_field(
-            'vimeo', // ID
-            'Vimeo', // Title
-            [ $this, 'vimeo_callback' ], // Callback
-            'social-setting-admin', // Page
-            'setting_section_id' // Section
-        );
-
-        add_settings_field(
-            'atom', // ID
-            'Atom/Rss', // Title
-            [ $this, 'atom_callback' ], // Callback
-            'social-setting-admin', // Page
-            'setting_section_id' // Section
-        );
-
-        add_settings_field(
-            'blogger', // ID
-            'Blogger', // Title
-            [ $this, 'blogger_callback' ], // Callback
-            'social-setting-admin', // Page
-            'setting_section_id' // Section
-        );
-
-        add_settings_field(
-            'instagram', // ID
-            'Instagram', // Title
-            [ $this, 'instagram_callback' ], // Callback
-            'social-setting-admin', // Page
-            'setting_section_id' // Section
-        );
-
-        add_settings_field(
-            'pinterest', // ID
-            'Pinterest', // Title
-            [ $this, 'pinterest_callback' ], // Callback
-            'social-setting-admin', // Page
-            'setting_section_id' // Section
-        );
-
-        add_settings_field(
-            'ios', // ID
-            'Apple/iOS', // Title
-            [ $this, 'ios_callback' ], // Callback
-            'social-setting-admin', // Page
-            'setting_section_id' // Section
-        );
-
-        add_settings_field(
-            'android', // ID
-            'Android', // Title
-            [ $this, 'android_callback' ], // Callback
-            'social-setting-admin', // Page
-            'setting_section_id' // Section
+    /**
+     * Print input field callback
+     */
+    public function print_input_field(array $args)
+    {
+        printf(
+            '<input class="form-control" type="text" id="' . $args['name'] . '" name="social_option_name[' . $args['name'] . ']" value="%s" style="width:300px;" />',
+            isset($this->options[$args['name']]) ? esc_attr($this->options[$args['name']]) : ''
         );
     }
 
@@ -174,132 +141,25 @@ class SocialSettingsPage
     public function sanitize($input)
     {
         $new_input = [];
-        $socialPlatforms = [
-            'facebook',
-            'youtube',
-            'linkedin',
-            'twitter',
-            'googleplus',
-            'vimeo',
-            'atom',
-            'blogger',
-            'instagram',
-            'pinterest',
-            'ios',
-            'android'
-        ];
-
-        foreach ($socialPlatforms as $sp) {
-            if (isset($input[$sp])) {
-                $new_input[$sp] = sanitize_text_field($input[$sp]);
+        foreach ($this->socialPlatforms as $handle => $label) {
+            if (isset($input[$handle])) {
+                $new_input[$handle] = sanitize_text_field($input[$handle]);
             }
         }
 
         return $new_input;
     }
 
-    // Print the Section text
+        // Print the Section text
     public function print_link_section_info()
     {
-        print '<p>Copy the entire URL to your profile page in the blanks below. Simply leave unused social media platforms blank.</p>
-		<p>PHP function usage: getSocialLinks(); returns an array of platform ids and links.</p>';
-    }
+        print '<p>Copy the entire URL to your profile page in the blanks below. Simply leave unused social media platforms blank.</p>';
 
-    // Get the settings option array and print the values
-    public function facebook_callback()
-    {
-        printf(
-            '<input class="form-control" type="text" id="facebook" name="social_option_name[facebook]" value="%s" />',
-            isset($this->options['facebook']) ? esc_attr($this->options['facebook']) : ''
-        );
-    }
-
-    public function twitter_callback()
-    {
-        printf(
-            '<input class="form-control" type="text" id="twitter" name="social_option_name[twitter]" value="%s" />',
-            isset($this->options['twitter']) ? esc_attr($this->options['twitter']) : ''
-        );
-    }
-
-    public function googleplus_callback()
-    {
-        printf(
-            '<input class="form-control" type="text" id="googleplus" name="social_option_name[googleplus]" value="%s" />',
-            isset($this->options['googleplus']) ? esc_attr($this->options['googleplus']) : ''
-        );
-    }
-
-    public function youtube_callback()
-    {
-        printf(
-            '<input class="form-control" type="text" id="youtube" name="social_option_name[youtube]" value="%s" />',
-            isset($this->options['youtube']) ? esc_attr($this->options['youtube']) : ''
-        );
-    }
-
-    public function vimeo_callback()
-    {
-        printf(
-            '<input class="form-control" type="text" id="vimeo" name="social_option_name[vimeo]" value="%s" />',
-            isset($this->options['vimeo']) ? esc_attr($this->options['vimeo']) : ''
-        );
-    }
-
-    public function atom_callback()
-    {
-        printf(
-            '<input class="form-control" type="text" id="atom" name="social_option_name[atom]" value="%s" />',
-            isset($this->options['atom']) ? esc_attr($this->options['atom']) : ''
-        );
-    }
-
-    public function blogger_callback()
-    {
-        printf(
-            '<input class="form-control" type="text" id="blogger" name="social_option_name[blogger]" value="%s" />',
-            isset($this->options['blogger']) ? esc_attr($this->options['blogger']) : ''
-        );
-    }
-
-    public function linkedin_callback()
-    {
-        printf(
-            '<input class="form-control" type="text" id="linkedin" name="social_option_name[linkedin]" value="%s" />',
-            isset($this->options['linkedin']) ? esc_attr($this->options['linkedin']) : ''
-        );
-    }
-
-    public function instagram_callback()
-    {
-        printf(
-            '<input class="form-control" type="text" id="instagram" name="social_option_name[instagram]" value="%s" />',
-            isset($this->options['instagram']) ? esc_attr($this->options['instagram']) : ''
-        );
-    }
-
-    public function pinterest_callback()
-    {
-        printf(
-            '<input class="form-control" type="text" id="pinterest" name="social_option_name[pinterest]" value="%s" />',
-            isset($this->options['pinterest']) ? esc_attr($this->options['pinterest']) : ''
-        );
-    }
-
-    public function ios_callback()
-    {
-        printf(
-            '<input class="form-control" type="text" id="ios" name="social_option_name[ios]" value="%s" />',
-            isset($this->options['ios']) ? esc_attr($this->options['ios']) : ''
-        );
-    }
-
-    public function android_callback()
-    {
-        printf(
-            '<input class="form-control" type="text" id="android" name="social_option_name[android]" value="%s" />',
-            isset($this->options['android']) ? esc_attr($this->options['android']) : ''
-        );
+        foreach ($this->getSocialLinks('svg', 'circle') as $socialIcon) {
+            echo '<a style="display:inline-block; width:40px; margin:.2rem;" href="' . $socialIcon[0] . '" target="_blank">';
+            echo $socialIcon[1];
+            echo '</a>';
+        }
     }
 
     public function getSocialLinks($format = 'svg', $shape = 'circle', $data = '')
@@ -312,11 +172,12 @@ class SocialSettingsPage
                 if ($platLink != '') {
                     $iconUrl = dirname(__FILE__) . '/icons/' . $format . '/' . $shape . '/' . $plat . '.svg';
                     $iconData = file_get_contents(wp_normalize_path($iconUrl));
-                    $socialArray[ $plat ][0] = $platLink;
-                    $socialArray[ $plat ][1] = $iconData;
+                    $socialArray[$plat][0] = $platLink;
+                    $socialArray[$plat][1] = $iconData;
                 }
             }
         }
+
         return $socialArray;
     }
 }
