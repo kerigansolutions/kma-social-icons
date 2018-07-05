@@ -6,6 +6,7 @@ class SocialSettingsPage
 {
     public $socialPlatforms;
     private $options;
+    public $shape;
 
     public function __construct()
     {
@@ -66,7 +67,10 @@ class SocialSettingsPage
     public function create_admin_page()
     {
         // Set class property
-        $this->options = get_option('social_option_name'); ?>
+        $this->options = get_option('social_option_name');
+        $this->shape = get_option('social_option_shape'); 
+
+        ?>
 		<div class="wrap">
 			<h1>Social Media Settings Settings</h1>
 			<form class="form form-horizontal" method="post" action="options.php">
@@ -103,6 +107,31 @@ class SocialSettingsPage
             'social-setting-admin' // Page
         );
 
+        register_setting(
+            'social_option_group', // Option group
+            'social_option_shape' // Option name
+        );
+
+        add_settings_field(
+            'social_option_shape', // ID
+            'Icon Shape', // Title
+            [$this, 'print_radio_field'], // Callback
+            'social-setting-admin', // Page
+            'setting_section_id', // Section
+            [
+                [
+                    'name'  => 'social_option_shape',
+                    'label' => 'Circle',
+                    'value' => 'circle'
+                ],
+                [
+                    'name'  => 'social_option_shape',
+                    'label' => 'Square',
+                    'value' => 'square'
+                ]
+            ]
+        );
+
         foreach ($this->socialPlatforms as $handle => $label) {
 
             $args = [ //creates callback to print input field
@@ -134,6 +163,18 @@ class SocialSettingsPage
     }
 
     /**
+     * Print radio field callback
+     */
+    public function print_radio_field(array $args)
+    {
+        foreach($args as $arg){
+            print(
+                '<input class="form-control" type="radio" name="' . $arg['name'] . '" value="' . $arg['value'] . '" '. ($this->shape == $arg['value'] ? 'checked' : '') .' /> ' . $arg['label'] . ' &nbsp; '
+            );
+        }
+    }
+
+    /**
      * Sanitize each setting field as needed
      *
      * @param array $input Contains all settings fields as array keys
@@ -155,29 +196,30 @@ class SocialSettingsPage
     {
         print '<p>Copy the entire URL to your profile page in the blanks below. Simply leave unused social media platforms blank.</p>';
 
-        foreach ($this->getSocialLinks('svg', 'circle') as $socialIcon) {
-            echo '<a style="display:inline-block; width:40px; margin:.2rem;" href="' . $socialIcon[0] . '" target="_blank">';
-            echo $socialIcon[1];
+        foreach ($this->getSocialLinks('svg', $this->shape) as $socialIcon) {
+            echo '<a style="display:inline-block; width:40px; margin:.2rem;" href="' . $socialIcon['link'] . '" target="_blank">';
+            echo $socialIcon['icon'];
             echo '</a>';
         }
     }
 
-    public function getSocialLinks($format = 'svg', $shape = 'circle', $data = '')
+    public function getSocialLinks($format = 'svg', $shape = '', $data = '')
     {
-        $supportedPlatforms = ($data != '' ? $data : get_option('social_option_name'));
+        $platforms = ($data != '' ? $data : get_option('social_option_name'));
+        $shape = ($shape != '' ? $shape : get_option('social_option_shape'));
 
-        $socialArray = [];
-        if (is_array($supportedPlatforms)) {
-            foreach ($supportedPlatforms as $plat => $platLink) {
-                if ($platLink != '') {
-                    $iconUrl = dirname(__FILE__) . '/icons/' . $format . '/' . $shape . '/' . $plat . '.svg';
+        $output = [];
+        if (is_array($platforms)) {
+            foreach ($platforms as $name => $link) {
+                if ($link != '') {
+                    $iconUrl = dirname(__FILE__) . '/icons/' . $format . '/' . $shape . '/' . $name . '.svg';
                     $iconData = file_get_contents(wp_normalize_path($iconUrl));
-                    $socialArray[$plat][0] = $platLink;
-                    $socialArray[$plat][1] = $iconData;
+                    $output[$name]['link'] = $link;
+                    $output[$name]['icon'] = $iconData;
                 }
             }
         }
 
-        return $socialArray;
+        return $output;
     }
 }
