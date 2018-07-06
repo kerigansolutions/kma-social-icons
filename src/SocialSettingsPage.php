@@ -38,6 +38,10 @@ class SocialSettingsPage
             'skype'       => 'Skype',
             'rss'         => 'RSS'
         ];
+
+        add_action( 'rest_api_init', function () {
+            $this->add_routes();
+        });
     }
 
     public function createPage()
@@ -221,5 +225,35 @@ class SocialSettingsPage
         }
 
         return $output;
+    }
+
+    public function getIconsAPI( $request )
+    {
+        $shape = $request->get_param( 'shape' );
+        return rest_ensure_response( $this->getSocialLinks('svg', $shape));
+    }
+
+    /**
+	 * Add routes
+	 */
+    public function add_routes() 
+    {
+        register_rest_route( 'kerigansolutions/v1', '/social-links',
+            [
+                'methods'         => 'GET',
+                'callback'        => [ $this, 'getIconsAPI' ],
+                'args'            => [
+                ]
+            ]
+        );
+    }
+
+    /**
+	 * Check request permissions
+	 *
+	 * @return bool
+	 */
+	public function permissions(){
+		return current_user_can( 'manage_options' );
     }
 }
