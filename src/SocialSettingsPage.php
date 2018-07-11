@@ -39,9 +39,8 @@ class SocialSettingsPage
             'rss'         => 'RSS'
         ];
 
-        add_action( 'rest_api_init', function () {
-            $this->add_routes();
-        });
+        // Create REST API Routes
+        add_action( 'rest_api_init', [$this, 'addRoutes'] );
     }
 
     public function createPage()
@@ -236,7 +235,7 @@ class SocialSettingsPage
     /**
 	 * Add routes
 	 */
-    public function add_routes() 
+    public function addRoutes() 
     {
         register_rest_route( 'kerigansolutions/v1', '/social-links',
             [
