@@ -131,6 +131,11 @@ class SocialSettingsPage
                     'name'  => 'social_option_shape',
                     'label' => 'Square',
                     'value' => 'square'
+                ],
+                [
+                    'name'  => 'social_option_shape',
+                    'label' => 'Outlined',
+                    'value' => 'outlined'
                 ]
             ]
         );
