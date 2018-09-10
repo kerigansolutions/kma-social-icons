@@ -136,6 +136,11 @@ class SocialSettingsPage
                     'name'  => 'social_option_shape',
                     'label' => 'Outlined',
                     'value' => 'outlined'
+                ],
+                [
+                    'name'  => 'social_option_shape',
+                    'label' => 'Icon Only (uses text color)',
+                    'value' => 'icon-only'
                 ]
             ]
         );
