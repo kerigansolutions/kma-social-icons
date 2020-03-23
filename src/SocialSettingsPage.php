@@ -17,6 +17,8 @@ class SocialSettingsPage
             'youtubealt'  => 'YouTube (version 2)',
             'linkedin'    => 'LinkedIn',
             'instagram'   => 'Instagram',
+            'tripadvisor' => 'TripAdvisor',
+            'yelp'        => 'Yelp',
             'twitter'     => 'Twitter',
             'googleplus'  => 'Google+',
             'pinterest'   => 'Pinterest',
@@ -126,6 +128,11 @@ class SocialSettingsPage
                     'name'  => 'social_option_shape',
                     'label' => 'Circle',
                     'value' => 'circle'
+                ],
+                [
+                    'name'  => 'social_option_shape',
+                    'label' => 'White Circle',
+                    'value' => 'whitecircle'
                 ],
                 [
                     'name'  => 'social_option_shape',
