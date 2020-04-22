@@ -20,7 +20,7 @@ class SocialSettingsPage
             'tripadvisor' => 'TripAdvisor',
             'yelp'        => 'Yelp',
             'twitter'     => 'Twitter',
-            'googleplus'  => 'Google+',
+            'googlemybus' => 'Google MyBusiness',
             'pinterest'   => 'Pinterest',
             'vimeo'       => 'Vimeo',
             'atom'        => 'Atom',
@@ -141,7 +141,7 @@ class SocialSettingsPage
                 ],
                 [
                     'name'  => 'social_option_shape',
-                    'label' => 'Outlined',
+                    'label' => 'Outlined (uses text color)',
                     'value' => 'outlined'
                 ],
                 [

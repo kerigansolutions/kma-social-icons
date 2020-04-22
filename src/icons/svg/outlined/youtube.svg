@@ -1,4 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36.02 36.02">
-    <path fill="none" stroke="#FFF" stroke-width="2px" d="M18,35A17,17,0,1,0,1,18,17,17,0,0,0,18,35"/>
-    <path fill="#FFF" d="M20.31,17l-5.57,3.27V13.75Zm5.2,3V14A2.87,2.87,0,0,0,22.58,11H11.43A2.87,2.87,0,0,0,8.5,14V20A2.87,2.87,0,0,0,11.43,23H22.58A2.87,2.87,0,0,0,25.51,20"></path>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 36 36" style="enable-background:new 0 0 36 36" xml:space="preserve">
+    <path fill="none" stroke="currentColor" stroke-width="2" d="M18,35c9.4,0,17-7.6,17-17S27.4,1,18,1S1,8.6,1,18S8.6,35,18,35"/>
+    <path fill="currentColor" d="M21.8,18l-5.6,3.3v-6.5L21.8,18z M27,21v-6c0.1-1.6-1.2-2.9-2.7-3c-0.1,0-0.1,0-0.2,0H12.9
+	c-1.6,0-2.9,1.2-2.9,2.8c0,0.1,0,0.1,0,0.2v6c-0.1,1.6,1.2,2.9,2.7,3c0.1,0,0.1,0,0.2,0h11.1c1.6,0,2.9-1.2,2.9-2.8
+	C27,21.1,27,21.1,27,21"/>
 </svg>
