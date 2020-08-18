@@ -258,8 +258,7 @@ class SocialSettingsPage
             [
                 'methods'         => 'GET',
                 'callback'        => [ $this, 'getIconsAPI' ],
-                'args'            => [
-                ]
+                'permission_callback' => '__return_true'
             ]
         );
     }
