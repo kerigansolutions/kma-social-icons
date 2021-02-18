@@ -236,6 +236,7 @@ class SocialSettingsPage
                     $iconData = file_get_contents(wp_normalize_path($iconUrl));
                     $output[$name]['link'] = $link;
                     $output[$name]['icon'] = $iconData;
+                    $output[$name]['name'] = $name;
                 }
             }
         }
