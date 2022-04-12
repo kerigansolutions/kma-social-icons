@@ -17,6 +17,7 @@ class SocialSettingsPage
             'youtubealt'  => 'YouTube (version 2)',
             'linkedin'    => 'LinkedIn',
             'instagram'   => 'Instagram',
+            'tiktok'      => 'TikTok',
             'tripadvisor' => 'TripAdvisor',
             'yelp'        => 'Yelp',
             'twitter'     => 'Twitter',
