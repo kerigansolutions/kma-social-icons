@@ -18,6 +18,7 @@ class SocialSettingsPage
             'linkedin'    => 'LinkedIn',
             'instagram'   => 'Instagram',
             'tiktok'      => 'TikTok',
+            'snapchat'    => 'Snapchat',
             'tripadvisor' => 'TripAdvisor',
             'yelp'        => 'Yelp',
             'twitter'     => 'Twitter',
